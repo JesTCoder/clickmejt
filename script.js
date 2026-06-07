@@ -454,7 +454,6 @@ if (giftBox3) {
 
 function closeGift() {
   if (giftVideo) { giftVideo.pause(); giftVideo.currentTime = 0; }
-  if (giftOverlayText) { giftOverlayText.textContent = ""; }
   if (giftModal) giftModal.classList.remove("show");
   [giftBox1, giftBox2, giftBox3].forEach((box) => {
     if (box) box.classList.remove("opened");
