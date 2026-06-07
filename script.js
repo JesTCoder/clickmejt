@@ -8,6 +8,19 @@ const music1 = document.getElementById("music1");
 const music2 = document.getElementById("music2");
 const music3 = document.getElementById("music3");
 const volumeSlider = document.getElementById("volumeSlider");
+const giftBox1 = document.getElementById("giftBox1");
+const giftBox2 = document.getElementById("giftBox2");
+const giftBox3 = document.getElementById("giftBox3");
+const giftModal = document.getElementById("giftModal");
+const giftImage = document.getElementById("giftImage");
+const giftVideo = document.getElementById("giftVideo");
+const closeGiftModal = document.getElementById("closeGiftModal");
+const giftOverlayText = document.getElementById("giftOverlayText");
+
+// Set your image filenames here ↓
+const GIFT_IMAGE_1 = "gift1.jpg";
+const GIFT_IMAGE_2 = "gift2.jpg";
+const GIFT_IMAGE_3 = "gift3.mp4";
 
 const confettiColors = ["#00bcd4", "#26c6da", "#4dd0e1", "#80deea", "#00acc1", "#0097a7", "#00838f", "#00e5ff"];
 
@@ -318,6 +331,12 @@ function hideLetter() {
   }
   setTimeout(() => {
     letterContainer.hidden = true;
+    [giftBox1, giftBox2, giftBox3].forEach((box) => {
+      if (box) {
+        box.hidden = false;
+        requestAnimationFrame(() => box.classList.add("show"));
+      }
+    });
   }, 400);
 }
 
@@ -387,4 +406,67 @@ if (showCakeBtn) {
 
 if (closeLetterBtn) {
   closeLetterBtn.addEventListener("click", hideLetter);
+}
+
+// Gift boxes
+function openGift(src, isVideo) {
+  if (giftImage) { giftImage.src = ""; giftImage.style.display = "none"; }
+  if (giftVideo) { giftVideo.pause(); giftVideo.currentTime = 0; giftVideo.src = ""; giftVideo.style.display = "none"; }
+
+  if (isVideo) {
+    if (giftVideo) {
+      giftVideo.src = src;
+      giftVideo.style.display = "block";
+      giftVideo.load();
+      giftVideo.play().catch(() => {});
+    }
+  } else {
+    if (giftImage) {
+      giftImage.src = src;
+      giftImage.style.display = "block";
+    }
+  }
+  if (giftOverlayText) {
+    giftOverlayText.style.display = src === GIFT_IMAGE_1 ? "block" : "none";
+  }
+  if (giftModal) {
+    requestAnimationFrame(() => giftModal.classList.add("show"));
+  }
+}
+
+function handleGiftClick(box, src, isVideo) {
+  if (!box) return;
+  box.classList.add("opened");
+  setTimeout(() => openGift(src, isVideo), 400);
+}
+
+if (giftBox1) {
+  giftBox1.addEventListener("click", () => handleGiftClick(giftBox1, GIFT_IMAGE_1, false));
+}
+
+if (giftBox2) {
+  giftBox2.addEventListener("click", () => handleGiftClick(giftBox2, GIFT_IMAGE_2, false));
+}
+
+if (giftBox3) {
+  giftBox3.addEventListener("click", () => handleGiftClick(giftBox3, GIFT_IMAGE_3, true));
+}
+
+function closeGift() {
+  if (giftVideo) { giftVideo.pause(); giftVideo.currentTime = 0; }
+  if (giftOverlayText) { giftOverlayText.textContent = ""; }
+  if (giftModal) giftModal.classList.remove("show");
+  [giftBox1, giftBox2, giftBox3].forEach((box) => {
+    if (box) box.classList.remove("opened");
+  });
+}
+
+if (closeGiftModal) {
+  closeGiftModal.addEventListener("click", closeGift);
+}
+
+if (giftModal) {
+  giftModal.addEventListener("click", (e) => {
+    if (e.target === giftModal) closeGift();
+  });
 }

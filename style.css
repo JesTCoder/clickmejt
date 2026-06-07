@@ -73,6 +73,7 @@ body {
 
 .cake-wrapper {
   transform-origin: center center;
+  position: relative;
 }
 
 .cake-container.show {
@@ -291,7 +292,6 @@ body {
   z-index: 2;
   width: 200px;
   margin: 0 auto;
-  overflow: hidden;
   height: 500px;
 }
 
@@ -720,6 +720,11 @@ body {
   color: #006064 !important;
 }
 
+.letter-ps {
+  font-style: italic;
+  color: #78909c;
+}
+
 .letter-signature span {
   font-style: normal;
   font-weight: 700;
@@ -767,6 +772,241 @@ body {
   .letter-content p {
     font-size: 0.9rem;
   }
+}
+
+/* ============================================== Gift box
+*/
+.gift-box {
+  position: absolute;
+  width: 48px;
+  height: 42px;
+  cursor: pointer;
+  z-index: 6;
+  transition: transform 0.3s ease, opacity 0.5s ease;
+  transform-origin: center bottom;
+  margin-top: -21px;
+}
+
+.gift-box-1 {
+  right: -48px;
+  top: 90%;
+  z-index: 7;
+}
+
+.gift-box-2 {
+  right: -103px;
+  top: 84%;
+  z-index: 5;
+}
+
+.gift-box-3 {
+  right: -158px;
+  top: 90%;
+  z-index: 7;
+}
+
+.gift-box:hover {
+  transform: scale(1.1);
+}
+
+.gift-box.show {
+  animation: giftPop 0.6s ease-out forwards;
+}
+
+@keyframes giftPop {
+  0% { opacity: 0; transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.gift-body {
+  position: absolute;
+  bottom: 0;
+  left: 2px;
+  width: 44px;
+  height: 30px;
+  background: #00bcd4;
+  border-radius: 3px;
+  transition: height 0.35s ease;
+}
+
+.gift-lid {
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  width: 48px;
+  height: 10px;
+  background: #0097a7;
+  border-radius: 3px 3px 0 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  transform-origin: center bottom;
+}
+
+.gift-ribbon-v {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 40px;
+  background: #ffd166;
+  border-radius: 2px;
+  transition: height 0.35s ease;
+}
+
+.gift-ribbon-h {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  width: 48px;
+  height: 6px;
+  background: #ffd166;
+  transition: opacity 0.35s ease;
+}
+
+.gift-bow {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 10px;
+  background: #ffd166;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* Opened state */
+.gift-box.opened .gift-lid {
+  transform: translateY(-14px) rotate(-8deg);
+  opacity: 0.6;
+}
+
+.gift-box.opened .gift-body {
+  height: 34px;
+}
+
+.gift-box.opened .gift-ribbon-v {
+  height: 44px;
+}
+
+.gift-box.opened .gift-ribbon-h {
+  opacity: 0.3;
+}
+
+.gift-box.opened .gift-bow {
+  transform: translateX(-50%) translateY(-8px) scale(0.8);
+  opacity: 0.6;
+}
+
+.gift-bow::before,
+.gift-bow::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 8px;
+  background: #ffd166;
+  border-radius: 50%;
+  top: 1px;
+}
+
+.gift-bow::before {
+  left: -8px;
+  transform: rotate(-25deg);
+}
+
+.gift-bow::after {
+  right: -8px;
+  transform: rotate(25deg);
+}
+
+/* ============================================== Gift modal
+*/
+.gift-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  padding: 24px;
+}
+
+.gift-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gift-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  background: #fff;
+}
+
+#giftImage,
+#giftVideo {
+  display: none;
+}
+
+.gift-modal-content img,
+.gift-modal-content video {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+.gift-overlay-text {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #78909c;
+  font-style: italic;
+  background: linear-gradient(180deg, rgba(224,247,250,0.92) 0%, rgba(178,235,242,0.85) 100%);
+  min-height: 60px;
+  z-index: 1;
+  outline: none;
+  word-wrap: break-word;
+}
+
+.gift-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 10;
+  border: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1.5rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.gift-modal-close:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
