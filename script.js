@@ -16,11 +16,13 @@ const giftImage = document.getElementById("giftImage");
 const giftVideo = document.getElementById("giftVideo");
 const closeGiftModal = document.getElementById("closeGiftModal");
 const giftOverlayText = document.getElementById("giftOverlayText");
+const beads = document.getElementById("beads");
 
 // Set your image filenames here ↓
 const GIFT_IMAGE_1 = "gift1.jpg";
 const GIFT_IMAGE_2 = "gift2.jpg";
 const GIFT_IMAGE_3 = "gift3.mp4";
+const BEADS_IMAGE = "beads.jpg";
 
 const confettiColors = ["#00bcd4", "#26c6da", "#4dd0e1", "#80deea", "#00acc1", "#0097a7", "#00838f", "#00e5ff"];
 
@@ -331,12 +333,16 @@ function hideLetter() {
   }
   setTimeout(() => {
     letterContainer.hidden = true;
-    [giftBox1, giftBox2, giftBox3].forEach((box) => {
-      if (box) {
-        box.hidden = false;
-        requestAnimationFrame(() => box.classList.add("show"));
+    [giftBox1, giftBox2, giftBox3].forEach((el) => {
+      if (el) {
+        el.hidden = false;
+        requestAnimationFrame(() => el.classList.add("show"));
       }
     });
+    if (beads) {
+      beads.classList.remove("hidden");
+      requestAnimationFrame(() => beads.classList.add("show"));
+    }
   }, 400);
 }
 
@@ -467,5 +473,14 @@ if (closeGiftModal) {
 if (giftModal) {
   giftModal.addEventListener("click", (e) => {
     if (e.target === giftModal) closeGift();
+  });
+}
+
+if (beads) {
+  beads.addEventListener("click", () => {
+    beads.classList.remove("swing");
+    void beads.offsetWidth;
+    beads.classList.add("swing");
+    openGift(BEADS_IMAGE, false);
   });
 }
