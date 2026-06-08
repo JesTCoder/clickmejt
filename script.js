@@ -478,9 +478,11 @@ if (giftModal) {
 
 if (beads) {
   beads.addEventListener("click", () => {
-    beads.classList.remove("swing");
-    void beads.offsetWidth;
     beads.classList.add("swing");
     openGift(BEADS_IMAGE, false);
+  });
+  beads.addEventListener("animationend", (e) => {
+    if (e.animationName === "beadsSwing") beads.classList.remove("swing");
+    if (e.animationName === "beadsAppear") beads.classList.remove("show");
   });
 }
